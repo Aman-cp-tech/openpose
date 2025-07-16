@@ -1,0 +1,43 @@
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+
+# Create figure and axes
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 8)
+ax.axis('off')
+
+# Function to add a box
+def add_box(x, y, text, width=2.5, height=1, color='lightblue'):
+    rect = patches.FancyBboxPatch((x, y), width, height,
+                                   boxstyle="round,pad=0.1",
+                                   linewidth=2, edgecolor='black',
+                                   facecolor=color)
+    ax.add_patch(rect)
+    ax.text(x + width / 2, y + height / 2, text,
+            ha='center', va='center', fontsize=10, fontweight='bold')
+
+# Add flowchart boxes
+add_box(1, 6.5, "Camera Frame / Video")
+add_box(4, 6.5, "YOLOv5\nPerson Detection")
+add_box(7, 6.5, "Detected Persons\n(Bounding Boxes)")
+add_box(4, 4.5, "Crop Each Person\nfrom Image")
+add_box(1, 2.5, "MediaPipe Pose\nEstimation")
+add_box(4, 2.5, "33 Body Landmarks\n(x, y, z, visibility)")
+add_box(7, 2.5, "Posture Analysis\nor Visualization")
+
+# Draw arrows
+def draw_arrow(x1, y1, x2, y2):
+    ax.annotate('', xy=(x2, y2), xytext=(x1, y1),
+                arrowprops=dict(arrowstyle='->', lw=2))
+
+draw_arrow(3.5, 7, 4, 7)
+draw_arrow(6.5, 7, 7, 7)
+draw_arrow(8.5, 7, 8.5, 5.5)
+draw_arrow(5.25, 6.5, 5.25, 5.5)
+draw_arrow(5.25, 4.5, 2.25, 3.5)
+draw_arrow(2.25, 2.5, 3.5, 2.5)
+draw_arrow(5.25, 2.5, 6.5, 2.5)
+
+plt.title("Multi-Person Posture Detection Flow (YOLOv5 + MediaPipe)", fontsize=13, fontweight='bold')
+plt.show()
